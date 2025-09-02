@@ -1,0 +1,237 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.barra-superior {
+  background: #1e293b;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.barra-superior h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+.controles button {
+  margin-left: 10px;
+}
+
+
+button {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.25s, transform 0.15s;
+}
+button:hover {
+  transform: scale(1.05);
+}
+.btn-acento { background: #2563eb; color: #fff; }
+.btn-fantasma { background: #e2e8f0; color: #1e293b; }
+.btn-primario { background: #10b981; color: #fff; }
+.btn-advertencia { background: #facc15; color: #1e293b; }
+.btn-peligro { background: #ef4444; color: #fff; }
+
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.cuadricula {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  gap: 20px;
+}
+.panel {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+
+.titulo-seccion {
+  font-size: 1.2rem;
+  margin: 20px 0 10px;
+  color: #1e293b;
+  text-align: center;
+}
+
+
+.estado {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.insignia {
+  background: #e2e8f0;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.insignia.exito {
+  background: #bbf7d0;
+}
+.insignia.advertencia {
+    background-color: #ff9800;
+    color: white;
+}
+.insignia.error {
+    background-color: #f44336;
+    color: white;
+}
+
+
+.mostrar-palabra {
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+.pistas {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+.pista {
+  background: #f3f4f6;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border: 1px solid #e5e7eb;
+}
+
+
+.mensaje {
+  text-align: center;
+  font-size: 1rem;
+  margin: 15px 0;
+  min-height: 24px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+
+.teclado {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  gap: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.tecla.deshabilitada {
+    background-color: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed !important;
+    opacity: 0.5;
+}
+.tecla {
+  background: #e2e8f0;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.15s;
+}
+.tecla:hover:not(.deshabilitada) {
+  background: #cbd5e1;
+  transform: scale(1.05);
+}
+
+aside.barra-herramientas {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+aside.barra-herramientas button {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+  min-width: 120px;
+  text-align: left;
+}
+
+.espacio-letra {
+    display: inline-block;
+    width: 40px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-bottom: 3px solid #333;
+    margin: 0 5px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.imagen-ahorcado {
+    text-align: center;
+    margin: 20px 0;
+}
+.imagen-ahorcado img {
+    max-width: 200px;
+    height: auto;
+    display: none;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .panel {
+    padding: 15px;
+    margin: 10px;
+  }
+  .teclado {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .tecla {
+    padding: 10px 6px;
+    font-size: 0.9rem;
+  }
+  .espacio-letra {
+    width: 30px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    margin: 0 3px;
+  }
+}
