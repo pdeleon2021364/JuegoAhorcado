@@ -1,24 +1,29 @@
+
 package config;
 
-import java.sql.Connection;
+import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
-    private Connection conexion;
-
-    public Connection getConnection() {
+    Connection conexion;
+    
+    public Connection Conexion() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/DB_JuegoAhorcado?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/DB_JuegoAhorcado?useSSL=false&allowPublicKeyRetrieval=true";
             String user = "quintom"; 
             String password = "admin";
-            conexion = DriverManager.getConnection(url, user, password);
+            conexion = (Connection) DriverManager.getConnection(url, user, password);
         } catch (ClassNotFoundException error) {
-            System.out.println("Error: No se encontró el driver de MySQL");
+            StackTraceElement elemento = error.getStackTrace()[0];
+            System.out.println("Error en: " + elemento.getClassName() + " linea " + elemento.getLineNumber());
+            System.out.println("Mensaje: " + error.getMessage());
             error.printStackTrace();
         } catch (SQLException error) {
-            System.out.println("Error de conexión a la base de datos");
+            StackTraceElement elemento = error.getStackTrace()[0];
+            System.out.println("Error en: " + elemento.getClassName() + " linea " + elemento.getLineNumber());
+            System.out.println("Mensaje: " + error.getMessage());
             error.printStackTrace();
         }
         return conexion;
