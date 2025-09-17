@@ -22,14 +22,14 @@ public class Validar extends HttpServlet {
             String password = request.getParameter("password");
 
             if ("pdeleon".equals(username) && "1234".equals(password)) {
-                System.out.println("verificar");
-                response.sendRedirect("Controlador?menu=Palabras&accion=Listar");
-            } else {
-                request.setAttribute("error", "Usuario o contraseña incorrectos");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            }
-        } else {
-            response.sendRedirect("login.jsp");
-        }
+    // Entra directo al servlet que carga palabras
+    response.sendRedirect("Controlador");
+} else {
+    request.setAttribute("error", "Usuario o contraseña incorrectos");
+    // Cambiar a index.jsp (nombre real de tu login)
+    request.getRequestDispatcher("index.jsp").forward(request, response);
+}
+
     }
+}
 }

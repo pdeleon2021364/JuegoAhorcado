@@ -13,10 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const inicializarEventos = () => {
-    // Teclado físico
     document.addEventListener('keydown', manejarEntrada);
 
-    // Teclado virtual
     const teclas = document.querySelectorAll('.tecla');
     teclas.forEach(boton => {
         boton.addEventListener('click', () => {
@@ -24,7 +22,6 @@ const inicializarEventos = () => {
         });
     });
 
-    // Botones de control
     document.getElementById('botonNuevoJuego').addEventListener('click', nuevoJuego);
     document.getElementById('botonPista').addEventListener('click', mostrarPista);
 };
@@ -37,7 +34,6 @@ const manejarLetra = (letra) => {
     if (juegoTerminado) return;
     if (!/^[A-ZÑ]$/.test(letra)) return;
 
-    // Deshabilitar botón en teclado virtual si existe
     const boton = document.querySelector(`.tecla[data-key="${letra}"]`);
     if (boton) boton.disabled = true;
 
@@ -56,7 +52,7 @@ const manejarLetra = (letra) => {
 
 const nuevoJuego = () => {
     if (!palabras || palabras.length === 0) {
-        actualizarMensaje("No hay palabras disponibles en la BD.");
+        actualizarMensaje("⚠️ No hay palabras disponibles en la BD.");
         return;
     }
 
@@ -69,10 +65,12 @@ const nuevoJuego = () => {
     juegoTerminado = false;
     contadorPista = 0;
 
-    // Reiniciar botones del teclado
     document.querySelectorAll('.tecla').forEach(boton => {
         boton.disabled = false;
     });
+
+    document.getElementById('espaciosPalabra').textContent = '';
+    document.getElementById('mensaje').textContent = '';
 
     actualizarEspacios();
     actualizarIntentos();
@@ -97,7 +95,6 @@ const actualizarIntentos = () => {
         if (img) img.style.display = 'none';
     }
 
-    // Mostrar la imagen correspondiente a los errores cometidos
     const errores = 6 - intentos;
     const imgMostrar = document.getElementById(`imagen${errores}`);
     if (imgMostrar) imgMostrar.style.display = 'block';
@@ -135,6 +132,12 @@ const mostrarPista = () => {
     }
 
     const palabraSeleccionada = palabras.find(p => p.nombrePalabra.toUpperCase() === palabraActual);
+
+    if (!palabraSeleccionada) {
+        actualizarMensaje('⚠️ No hay pistas disponibles.');
+        return;
+    }
+
     const pistas = [palabraSeleccionada.pista1, palabraSeleccionada.pista2, palabraSeleccionada.pista3];
 
     if (contadorPista < pistas.length) {
@@ -145,7 +148,6 @@ const mostrarPista = () => {
     }
 };
 
-// Cronómetro
 const iniciarCronometro = () => {
     cronometro = setInterval(() => {
         segundos++;
