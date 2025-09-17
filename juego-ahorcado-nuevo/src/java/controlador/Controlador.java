@@ -1,48 +1,20 @@
 package controlador;
 
-import java.io.IOException;
-import java.util.List;
+import modelo.Palabra;
+import modelo.PalabraDAO;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Palabra;
-import modelo.PalabraDAO;
+import java.io.IOException;
+import java.util.List;
 
-@WebServlet(name = "Controlador", urlPatterns = {"/Controlador"})
+@WebServlet("/Controlador")
 public class Controlador extends HttpServlet {
 
-    PalabraDAO palabraDAO = new PalabraDAO();
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String menu = request.getParameter("menu");
-        String accion = request.getParameter("accion");
-        
-        menu = "Palabras";
-        if (menu.equals("Palabras")) {
-            switch (accion) {
-                case "Listar":
-                    System.out.println("listandopalabra");
-                    List<Palabra> listaPalabras = palabraDAO.listar();
-                    request.setAttribute("palabras", listaPalabras);
-                    request.getRequestDispatcher("ahorcado.jsp").forward(request, response);
-                    System.out.println(listaPalabras);
-                    break;
-
-                default:
-                    // Acción no reconocida → al index
-                    response.sendRedirect("index.jsp");
-                    break;
-            }
-
-        } else {
-            // Menú no válido → al index
-            response.sendRedirect("index.jsp");
-        }
-    }
+    private final PalabraDAO palabraDAO = new PalabraDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,8 +28,16 @@ public class Controlador extends HttpServlet {
         processRequest(request, response);
     }
 
-    @Override
-    public String getServletInfo() {
-        return "Controlador principal para el proyecto de Ahorcado";
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Carga la lista de palabras desde la base de datos
+        List<Palabra> listaPalabras = palabraDAO.listar();
+
+        // Pasa la lista a la vista
+        request.setAttribute("palabras", listaPalabras);
+
+        // Envía la solicitud al archivo JSP
+        request.getRequestDispatcher("ahorcado.jsp").forward(request, response);
     }
 }
