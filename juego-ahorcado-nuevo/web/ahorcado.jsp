@@ -21,9 +21,9 @@
                     <span class="insignia exito">Máximo: 6 errores</span>
                     <span class="insignia">Tiempo: <span id="mostrarCronometro">00:00</span></span>
                 </div>
-                
+
                 <div class="mostrar-palabra" id="espaciosPalabra"></div>
-                
+
                 <div class="imagen-ahorcado">
                     <img src="img/2.png" id="imagen0" style="display:none">
                     <img src="img/3.png" id="imagen1" style="display:none">
@@ -33,7 +33,7 @@
                     <img src="img/7.png" id="imagen5" style="display:none">
                     <img src="img/1.png" id="imagen6" style="display:none">
                 </div>
-                
+
                 <div class="mensaje" id="mensaje">
                     ¡Bienvenido al juego del ahorcado! Adivina la palabra haciendo clic en las letras.
                 </div>
@@ -41,6 +41,7 @@
                 <div>
                     <h3 class="titulo-seccion">Teclado Virtual</h3>
                     <div class="teclado" id="teclado">
+                        <!-- botones A..Z y Ñ -->
                         <button class="tecla" data-key="A">A</button>
                         <button class="tecla" data-key="B">B</button>
                         <button class="tecla" data-key="C">C</button>
@@ -72,9 +73,9 @@
                 </div>
 
                 <div style="text-align: center; margin-top: 20px;">
-                    <button id="botonNuevoJuego" class="btn-primario" onclick="window.location.href='Controlador'">
+                    <button id="botonNuevoJuego" class="btn-primario">
                         Nuevo Juego (•﹏•;)
-                    </button>   
+                    </button>
                     <button id="botonPista" class="btn-acento">
                         Pista ◉_◉
                     </button>
@@ -82,18 +83,29 @@
             </section>
         </div>
     </main>
-
     <script>
         let palabras = [];
-        <c:forEach var="p" items="${palabras}">
+        <%
+            java.util.List lista = (java.util.List) request.getAttribute("palabras");
+            if (lista != null) {
+                for (Object obj : lista) {
+                    modelo.Palabra p = (modelo.Palabra) obj;
+                    String nombre = p.getNombre() == null ? "" : p.getNombre().replace("\\", "\\\\").replace("\"", "\\\"").replace("'", "\\'");
+                    String pista1 = p.getPista1() == null ? "" : p.getPista1().replace("\\", "\\\\").replace("\"", "\\\"").replace("'", "\\'");
+                    String pista2 = p.getPista2() == null ? "" : p.getPista2().replace("\\", "\\\\").replace("\"", "\\\"").replace("'", "\\'");
+                    String pista3 = p.getPista3() == null ? "" : p.getPista3().replace("\\", "\\\\").replace("\"", "\\\"").replace("'", "\\'");
+        %>
             palabras.push({
-                nombrePalabra: "${p.nombre}",
-                pista1: "${p.pista1}",
-                pista2: "${p.pista2}",
-                pista3: "${p.pista3}"
+                nombrePalabra: "<%= nombre %>",
+                pista1: "<%= pista1 %>",
+                pista2: "<%= pista2 %>",
+                pista3: "<%= pista3 %>"
             });
-        </c:forEach>
+        <%  }
+            }
+        %>
     </script>
+
     <script src="js/script.js"></script>
 </body>
 </html>

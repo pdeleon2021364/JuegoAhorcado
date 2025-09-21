@@ -1,10 +1,13 @@
+// js/script.js
+'use strict';
+
 let palabraActual = '';
 let letrasAdivinadas = [];
 let intentos = 6;
 let juegoTerminado = false;
 let segundos = 0;
 let minutos = 0;
-let cronometro;
+let cronometro = null;
 let contadorPista = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,28 +25,35 @@ const inicializarEventos = () => {
         });
     });
 
-    document.getElementById('botonNuevoJuego').addEventListener('click', nuevoJuego);
-    document.getElementById('botonPista').addEventListener('click', mostrarPista);
+    const btnNuevo = document.getElementById('botonNuevoJuego');
+    if (btnNuevo) btnNuevo.addEventListener('click', nuevoJuego);
+
+    const btnPista = document.getElementById('botonPista');
+    if (btnPista) btnPista.addEventListener('click', mostrarPista);
 };
 
 const manejarEntrada = (event) => {
-    manejarLetra(event.key.toUpperCase());
+    const key = event.key ? event.key.toUpperCase() : '';
+    manejarLetra(key);
 };
 
 const manejarLetra = (letra) => {
     if (juegoTerminado) return;
-    if (!/^[A-ZÑ]$/.test(letra)) return;
+    if (!letra || !/^[A-ZÑ]$/.test(letra)) return;
 
     const boton = document.querySelector(`.tecla[data-key="${letra}"]`);
     if (boton) boton.disabled = true;
 
+    // Evita penalizar si ya fue adivinada (correcta o incorrecta)
+    if (letrasAdivinadas.includes(letra)) return;
+
     if (palabraActual.includes(letra)) {
-        if (!letrasAdivinadas.includes(letra)) {
-            letrasAdivinadas.push(letra);
-            actualizarEspacios();
-            verificarVictoria();
-        }
+        letrasAdivinadas.push(letra);
+        actualizarEspacios();
+        verificarVictoria();
     } else {
+        // guardo la letra equivocada para que no penalice dos veces
+        letrasAdivinadas.push(letra);
         intentos--;
         actualizarIntentos();
         verificarDerrota();
@@ -59,7 +69,7 @@ const nuevoJuego = () => {
     const indiceAleatorio = Math.floor(Math.random() * palabras.length);
     const palabraSeleccionada = palabras[indiceAleatorio];
 
-    palabraActual = palabraSeleccionada.nombrePalabra.toUpperCase();
+    palabraActual = (palabraSeleccionada.nombrePalabra || '').toUpperCase().trim();
     letrasAdivinadas = [];
     intentos = 6;
     juegoTerminado = false;
@@ -69,8 +79,11 @@ const nuevoJuego = () => {
         boton.disabled = false;
     });
 
-    document.getElementById('espaciosPalabra').textContent = '';
-    document.getElementById('mensaje').textContent = '';
+    const espacios = document.getElementById('espaciosPalabra');
+    if (espacios) espacios.textContent = '';
+
+    const mensaje = document.getElementById('mensaje');
+    if (mensaje) mensaje.textContent = '';
 
     actualizarEspacios();
     actualizarIntentos();
@@ -81,14 +94,16 @@ const nuevoJuego = () => {
 const actualizarEspacios = () => {
     const espacios = palabraActual
         .split('')
-        .map(letra => (letrasAdivinadas.includes(letra) ? letra : '_'))
+        .map(letra => letra === ' ' ? ' ' : (letrasAdivinadas.includes(letra) ? letra : '_'))
         .join(' ');
 
-    document.getElementById('espaciosPalabra').textContent = espacios;
+    const cont = document.getElementById('espaciosPalabra');
+    if (cont) cont.textContent = espacios;
 };
 
 const actualizarIntentos = () => {
-    document.getElementById('valorIntentos').textContent = intentos;
+    const el = document.getElementById('valorIntentos');
+    if (el) el.textContent = intentos;
 
     for (let i = 0; i <= 6; i++) {
         const img = document.getElementById(`imagen${i}`);
@@ -101,19 +116,21 @@ const actualizarIntentos = () => {
 };
 
 const actualizarMensaje = (mensaje) => {
-    document.getElementById('mensaje').textContent = mensaje;
+    const el = document.getElementById('mensaje');
+    if (el) el.textContent = mensaje;
 };
 
 const verificarVictoria = () => {
     const palabraMostrada = palabraActual
         .split('')
-        .map(letra => (letrasAdivinadas.includes(letra) ? letra : '_'))
+        .map(letra => (letra === ' ' ? ' ' : (letrasAdivinadas.includes(letra) ? letra : '_')))
         .join('');
 
     if (palabraMostrada === palabraActual) {
         actualizarMensaje('🎉 ¡Ganaste! La palabra era: ' + palabraActual);
         juegoTerminado = true;
         detenerCronometro();
+        document.querySelectorAll('.tecla').forEach(b => b.disabled = true);
     }
 };
 
@@ -122,6 +139,7 @@ const verificarDerrota = () => {
         actualizarMensaje('💀 Perdiste. La palabra era: ' + palabraActual);
         juegoTerminado = true;
         detenerCronometro();
+        document.querySelectorAll('.tecla').forEach(b => b.disabled = true);
     }
 };
 
@@ -131,17 +149,16 @@ const mostrarPista = () => {
         return;
     }
 
-    const palabraSeleccionada = palabras.find(p => p.nombrePalabra.toUpperCase() === palabraActual);
-
+    const palabraSeleccionada = palabras.find(p => (p.nombrePalabra || '').toUpperCase() === palabraActual);
     if (!palabraSeleccionada) {
         actualizarMensaje('⚠️ No hay pistas disponibles.');
         return;
     }
 
-    const pistas = [palabraSeleccionada.pista1, palabraSeleccionada.pista2, palabraSeleccionada.pista3];
+    const pistas = [palabraSeleccionada.pista1, palabraSeleccionada.pista2, palabraSeleccionada.pista3].filter(Boolean);
 
     if (contadorPista < pistas.length) {
-        actualizarMensaje(`💡 Pista: ${pistas[contadorPista]}`);
+        actualizarMensaje('💡 Pista: ' + pistas[contadorPista]);
         contadorPista++;
     } else {
         actualizarMensaje('Ya no hay más pistas disponibles.');
@@ -155,19 +172,23 @@ const iniciarCronometro = () => {
             segundos = 0;
             minutos++;
         }
-        document.getElementById('mostrarCronometro').textContent =
-            (minutos < 10 ? '0' : '') + minutos + ':' + (segundos < 10 ? '0' : '') + segundos;
+        const el = document.getElementById('mostrarCronometro');
+        if (el) el.textContent = (minutos < 10 ? '0' : '') + minutos + ':' + (segundos < 10 ? '0' : '') + segundos;
     }, 1000);
 };
 
 const detenerCronometro = () => {
-    clearInterval(cronometro);
+    if (cronometro) {
+        clearInterval(cronometro);
+        cronometro = null;
+    }
 };
 
 const reiniciarCronometro = () => {
-    clearInterval(cronometro);
+    detenerCronometro();
     segundos = 0;
     minutos = 0;
-    document.getElementById('mostrarCronometro').textContent = '00:00';
+    const el = document.getElementById('mostrarCronometro');
+    if (el) el.textContent = '00:00';
     iniciarCronometro();
 };
