@@ -13,9 +13,9 @@
       <input name="username" placeholder="Username" class="username input" type="text" required />
       <input name="password" placeholder="Password" class="password input" type="password" required />
       <button class="btn" type="submit" name="accion" value="Ingresar">Login</button>
-      <% 
+      <%
         String error = (String) request.getAttribute("error");
-        if(error != null){ 
+        if(error != null){
       %>
           <p style="color:red; margin-top:10px;"><%= error %></p>
       <% } %>

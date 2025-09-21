@@ -1,285 +1,259 @@
-/* Estilos generales y tipografía */
+/* 🎨 Estilos globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+}
+
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #ffffff;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #f8f8f8;
+  background-attachment: fixed;
 }
 
-/* Barra de navegación superior */
-.barra-superior {
-    background-color: #f0f0f0;
-    color: #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-}
-
-.barra-superior h1 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-/* Botones */
-button {
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    color: #333;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-button:hover {
-    background-color: #e0e0e0;
-}
-
-.btn-acento { background-color: #007bff; color: #fff; border-color: #007bff; }
-.btn-fantasma { background-color: transparent; border-color: #333; }
-.btn-primario { background-color: #28a745; color: #fff; border-color: #28a745; }
-.btn-advertencia { background-color: #ffc107; color: #333; border-color: #ffc107; }
-.btn-peligro { background-color: #dc3545; color: #fff; border-color: #dc3545; }
-
-/* Contenido principal */
+/* ========================== */
+/* 🎮 SECCIÓN: JUEGO AHORCADO */
+/* ========================== */
 main {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
 }
 
 .panel {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ddd;
-    width: 100%;
-    max-width: 600px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  border-radius: 1rem;
+  padding: 30px;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7), 0 0 10px #00d9ff;
+  animation: fadeIn 1s ease-in-out;
 }
 
 .titulo-seccion {
-    font-size: 1.2rem;
-    margin: 0 0 15px;
-    text-align: center;
-    color: #555;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #00d9ff;
+  text-shadow: 0 0 10px #00d9ff, 0 0 20px #0077ff;
 }
 
-/* Elementos del juego */
-.estado, .pistas {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+/* Estado */
+.estado {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.insignia, .pista {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    border: 1px solid #ccc;
-    color: #555;
+.insignia {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid #00d9ff;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #f8f8f8;
 }
 
+.insignia.exito {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+/* Palabra */
 .mostrar-palabra {
-    padding: 20px 0;
-    text-align: center;
-    min-height: 60px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
 }
 
 .espacio-letra {
-    display: inline-block;
-    width: 30px;
-    height: 40px;
-    text-align: center;
-    border-bottom: 2px solid #333;
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
+  width: 35px;
+  height: 50px;
+  border-bottom: 3px solid #00d9ff;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.espacio-letra.letra-revelada {
+  color: #10b981;
+  border-color: #10b981;
+  text-shadow: 0 0 10px #10b981;
 }
 
 .mensaje {
-    text-align: center;
-    font-size: 1rem;
-    margin: 15px 0;
+  text-align: center;
+  margin: 15px 0;
+  font-size: 1.1rem;
+  color: #ffda77;
+  text-shadow: 0 0 6px rgba(255,218,119,0.8);
+}
+
+/* Imagen del ahorcado */
+.imagen-ahorcado {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+}
+.imagen-ahorcado img {
+  max-width: 220px;
+  transition: all 0.3s ease-in-out;
 }
 
 /* Teclado */
 .teclado {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
-    gap: 5px;
-    max-width: 500px;
-    margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+  gap: 8px;
+  max-width: 600px;
+  margin: 20px auto;
 }
 
 .tecla {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    color: #333;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  background: linear-gradient(145deg, #1c1c1c, #2a2a2a);
+  color: #f8f8f8;
+  box-shadow: 0 0 8px rgba(0,217,255,0.5);
+  cursor: pointer;
+  transition: transform 0.15s, background 0.3s;
 }
 
 .tecla:hover:not(.deshabilitada) {
-    background-color: #e0e0e0;
+  background: #00d9ff;
+  color: #000;
+  transform: scale(1.1);
+}
+
+.tecla.correcto {
+  background: #10b981;
+  color: #fff;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.tecla.incorrecto {
+  background: #ef4444;
+  color: #fff;
+  box-shadow: 0 0 10px #ef4444;
 }
 
 .tecla.deshabilitada {
-    background-color: #f0f0f0;
-    color: #aaa;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-/* From Uiverse.io by HoseinParvaresh */ 
-::selection {
-  background-color: gray;
+/* Botones principales */
+.btn-primario, .btn-acento {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
+.btn-primario {
+  background: #10b981;
+  color: #fff;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.btn-acento {
+  background: #00d9ff;
+  color: #000;
+  box-shadow: 0 0 10px #00d9ff;
+}
+
+.btn-primario:hover, .btn-acento:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #fff;
+}
+
+/* ================= */
+/* 🔐 LOGIN STYLES   */
+/* ================= */
 .container {
-  margin: 0 auto;
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .form {
-  width: 400px;
-  height: 400px;
-  background-image: linear-gradient(to bottom, #424242, #212121);
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  border-radius: 0.5rem;
+  background: rgba(0,0,0,0.75);
+  padding: 40px;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 0 20px #00d9ff, 0 0 40px rgba(0,0,0,0.8);
+  width: 100%;
+  max-width: 400px;
 }
 
 .title {
-  color: wheat;
-  margin: 3rem 0;
   font-size: 2rem;
+  color: #00d9ff;
+  margin-bottom: 30px;
+  text-shadow: 0 0 15px #00d9ff;
 }
 
 .input {
-  margin: 0.5rem 0;
-  padding: 1rem 0.5rem;
-  width: 20rem;
-  background-color: inherit;
-  color: wheat;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: transparent;
   border: none;
+  border-bottom: 2px solid #00d9ff;
+  color: #f8f8f8;
+  font-size: 1rem;
   outline: none;
-  border-bottom: 1px solid wheat;
-  transition: all 400ms;
+  transition: border-color 0.3s;
 }
-.input:hover {
-  background-color: #424242;
-  border: none;
-  border-radius: 0.5rem;
+
+.input:focus {
+  border-bottom-color: #10b981;
 }
+
 .btn {
-  height: 3rem;
-  width: 20rem;
-  margin-top: 3rem;
-  background-color: wheat;
-  border-radius: 0.5rem;
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  background: #00d9ff;
   border: none;
-  font-size: 1.2rem;
-  transition: all 400ms;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000;
   cursor: pointer;
-  box-shadow:
-    0 0 10px antiquewhite,
-    0 0 10px antiquewhite;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
+
 .btn:hover {
-  background-color: antiquewhite;
-  box-shadow: none;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00d9ff;
 }
 
-/* Agregar estas reglas a tu archivo style.css existente */
-
-/* Actualizar la imagen-ahorcado para controlar el tamaño */
-.imagen-ahorcado img {
-    max-width: 200px !important; /* Forzar el tamaño original */
-    height: auto;
-    display: center;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+/* ================= */
+/* Animaciones extra */
+/* ================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9);}
+  to { opacity: 1; transform: scale(1);}
 }
 
-/* Estilos para las teclas correctas e incorrectas */
-.tecla.correcto {
-    background-color: #10b981 !important;
-    color: white !important;
-    border: 2px solid #059669;
-}
-
-.tecla.incorrecto {
-    background-color: #ef4444 !important;
-    color: white !important;
-    border: 2px solid #dc2626;
-}
-
-/* Estilos para las letras reveladas */
-.espacio-letra.letra-revelada {
-    color: #10b981;
-    border-bottom-color: #10b981;
-    background-color: rgba(16, 185, 129, 0.1);
-}
-
-.espacio-letra.letra-oculta {
-    color: #6b7280;
-}
-
-@keyframes tambaleo {
-    0% { transform: rotate(0deg); }
-    10% { transform: rotate(-2deg); }
-    20% { transform: rotate(2deg); }
-    30% { transform: rotate(-2deg); }
-    40% { transform: rotate(2deg); }
-    50% { transform: rotate(-1deg); }
-    60% { transform: rotate(1deg); }
-    70% { transform: rotate(-1deg); }
-    80% { transform: rotate(1deg); }
-    90% { transform: rotate(0deg); }
-    100% { transform: rotate(0deg); }
-}
-
-@keyframes balanceo {
-    0% { transform: rotate(0deg) scale(1); }
-    25% { transform: rotate(-1deg) scale(1.02); }
-    50% { transform: rotate(1deg) scale(1); }
-    75% { transform: rotate(-0.5deg) scale(1.01); }
-    100% { transform: rotate(0deg) scale(1); }
-}
-
-@keyframes pulso-siniestro {
-    0% { 
-        opacity: 1; 
-        filter: brightness(1); 
-    }
-    50% { 
-        opacity: 0.8; 
-        filter: brightness(0.7) contrast(1.2); 
-    }
-    100% { 
-        opacity: 1; 
-        filter: brightness(1); 
-    }
-}
-
-.imagen-ahorcado img.efecto-muerte {
-    animation: 
-        tambaleo 1.5s ease-in-out,
-        balanceo 2s ease-in-out infinite 1.5s,
-        pulso-siniestro 4s ease-in-out infinite 3s;
-    transform-origin: center top;
-}
