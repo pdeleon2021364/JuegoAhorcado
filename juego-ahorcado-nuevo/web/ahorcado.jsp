@@ -37,11 +37,15 @@
                 <div class="mensaje" id="mensaje">
                     ¡Bienvenido al juego del ahorcado! Adivina la palabra haciendo clic en las letras.
                 </div>
+                <div id="contenedorPista" class="contenedor-pista" style="display:none; text-align:center; margin-top:15px;">
+                <p id="textoPista"></p>
+                <img id="imagenPista" src="" alt="Imagen pista" style="max-width:150px; margin-top:10px; border-radius:12px; display:none;">
+              </div>
+
 
                 <div>
                     <h3 class="titulo-seccion">Teclado Virtual</h3>
                     <div class="teclado" id="teclado">
-                        <!-- botones A..Z y Ñ -->
                         <button class="tecla" data-key="A">A</button>
                         <button class="tecla" data-key="B">B</button>
                         <button class="tecla" data-key="C">C</button>
@@ -83,28 +87,18 @@
             </section>
         </div>
     </main>
-    <script>
-        let palabras = [];
-        <%
-            java.util.List lista = (java.util.List) request.getAttribute("palabras");
-            if (lista != null) {
-                for (Object obj : lista) {
-                    modelo.Palabra p = (modelo.Palabra) obj;
-                    String nombre = p.getNombre() == null ? "" : p.getNombre().replace("\\", "\\\\").replace("\"", "\\\"").replace("'", "\\'");
-                    String pista1 = p.getPista1() == null ? "" : p.getPista1().replace("\\", "\\\\").replace("\"", "\\\"").replace("'", "\\'");
-                    String pista2 = p.getPista2() == null ? "" : p.getPista2().replace("\\", "\\\\").replace("\"", "\\\"").replace("'", "\\'");
-                    String pista3 = p.getPista3() == null ? "" : p.getPista3().replace("\\", "\\\\").replace("\"", "\\\"").replace("'", "\\'");
-        %>
-            palabras.push({
-                nombrePalabra: "<%= nombre %>",
-                pista1: "<%= pista1 %>",
-                pista2: "<%= pista2 %>",
-                pista3: "<%= pista3 %>"
-            });
-        <%  }
-            }
-        %>
-    </script>
+   <script>
+    let palabras = [];
+    <c:forEach var="palabra" items="${palabras}">
+        palabras.push({
+            nombrePalabra: "${palabra.nombre}",
+            pista1: "${palabra.pista1}",
+            pista2: "${palabra.pista2}",
+            pista3: "${palabra.pista3}"
+        });
+    </c:forEach>
+</script>
+
 
     <script src="js/script.js"></script>
 </body>

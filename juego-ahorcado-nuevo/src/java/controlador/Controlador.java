@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import javax.servlet.http.HttpSession;
  
 @WebServlet("/Controlador")
 public class Controlador extends HttpServlet {
@@ -28,11 +29,18 @@ public class Controlador extends HttpServlet {
         processRequest(request, response);
     }
  
-    private void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
- 
-        List<Palabra> listaPalabras = palabraDAO.listar();
-        request.setAttribute("palabras", listaPalabras);
-        request.getRequestDispatcher("ahorcado.jsp").forward(request, response);
+   private void processRequest(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+
+    HttpSession session = request.getSession(false);
+    if (session == null || session.getAttribute("usuario") == null) {
+        response.sendRedirect("index.jsp");
+        return;
     }
+
+    List<Palabra> listaPalabras = palabraDAO.listar();
+    request.setAttribute("palabras", listaPalabras);
+    request.getRequestDispatcher("ahorcado.jsp").forward(request, response);
+}
+
 }

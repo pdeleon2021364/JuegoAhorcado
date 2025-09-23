@@ -1,6 +1,3 @@
-// js/script.js
-'use strict';
-
 let palabraActual = '';
 let letrasAdivinadas = [];
 let intentos = 6;
@@ -85,6 +82,19 @@ const nuevoJuego = () => {
     const mensaje = document.getElementById('mensaje');
     if (mensaje) mensaje.textContent = '';
 
+    // AGREGAR ESTAS LÍNEAS PARA LIMPIAR LA PISTA
+    const contenedorPista = document.getElementById('contenedorPista');
+    const textoPista = document.getElementById('textoPista');
+    const imagenPista = document.getElementById('imagenPista');
+    
+    if (contenedorPista) contenedorPista.style.display = 'none';
+    if (textoPista) textoPista.textContent = '';
+    if (imagenPista) {
+        imagenPista.src = '';
+        imagenPista.style.display = 'none';
+    }
+    // FIN DE LAS LÍNEAS AGREGADAS
+
     actualizarEspacios();
     actualizarIntentos();
     actualizarMensaje('Nuevo juego iniciado. ¡Suerte!');
@@ -144,25 +154,42 @@ const verificarDerrota = () => {
 };
 
 const mostrarPista = () => {
-    if (juegoTerminado) {
-        actualizarMensaje('Inicia un nuevo juego para usar la pista.');
-        return;
-    }
+  if (juegoTerminado) {
+    actualizarMensaje('Inicia un nuevo juego para usar la pista.');
+    return;
+  }
 
-    const palabraSeleccionada = palabras.find(p => (p.nombrePalabra || '').toUpperCase() === palabraActual);
-    if (!palabraSeleccionada) {
-        actualizarMensaje('⚠️ No hay pistas disponibles.');
-        return;
-    }
+  const palabraSeleccionada = palabras.find(p => (p.nombrePalabra || '').toUpperCase() === palabraActual);
+  if (!palabraSeleccionada) {
+    actualizarMensaje('⚠️ No hay pistas disponibles.');
+    return;
+  }
 
-    const pistas = [palabraSeleccionada.pista1, palabraSeleccionada.pista2, palabraSeleccionada.pista3].filter(Boolean);
+  const pistas = [palabraSeleccionada.pista1, palabraSeleccionada.pista2, palabraSeleccionada.pista3].filter(Boolean);
+  const contenedorPista = document.getElementById('contenedorPista');
+  const textoPista = document.getElementById('textoPista');
+  const imagenPista = document.getElementById('imagenPista');
 
-    if (contadorPista < pistas.length) {
-        actualizarMensaje('💡 Pista: ' + pistas[contadorPista]);
-        contadorPista++;
-    } else {
-        actualizarMensaje('Ya no hay más pistas disponibles.');
+  if (contadorPista < pistas.length) {
+    // Mostrar la pista de texto
+    textoPista.textContent = '💡 Pista: ' + pistas[contadorPista];
+    
+    // Mostrar la imagen correspondiente a la palabra
+    const nombreImg = palabraSeleccionada.nombrePalabra.toLowerCase() + '.png';
+    imagenPista.src = 'img/' + nombreImg;
+    imagenPista.style.display = 'block';
+    
+    // Mostrar el contenedor completo
+    contenedorPista.style.display = 'block';
+    
+    contadorPista++;
+  } else {
+    textoPista.textContent = 'Ya no hay más pistas disponibles.';
+    // Mantener la imagen visible aunque no haya más pistas de texto
+    if (imagenPista.src) {
+      imagenPista.style.display = 'block';
     }
+  }
 };
 
 const iniciarCronometro = () => {
