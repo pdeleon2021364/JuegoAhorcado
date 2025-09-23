@@ -9,7 +9,7 @@
 <body>
   <div class="container">
     <form class="form" id="loginForm" action="Validar" method="POST">
-      <p class="title">Login Form</p>
+      <p class="title">Inicio de Sesion</p>
       <input name="username" placeholder="Username" class="username input" type="text" required />
       <input name="password" placeholder="Password" class="password input" type="password" required />
       <button class="btn" type="submit" name="accion" value="Ingresar">Login</button>
