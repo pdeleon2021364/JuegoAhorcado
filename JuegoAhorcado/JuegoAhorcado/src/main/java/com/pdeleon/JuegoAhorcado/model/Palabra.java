@@ -11,20 +11,21 @@ public class Palabra {
     @Column(name = "codigoPalabra")
     private Integer codigoPalabra;
 
-    @Column(name = "nombre", nullable = false, length = 50)
+    @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "pista1", nullable = false, length = 255)
+    @Column(name = "pista1")
     private String pista1;
 
-    @Column(name = "pista2", nullable = false, length = 255)
+    @Column(name = "pista2")
     private String pista2;
 
-    @Column(name = "pista3", nullable = false, length = 255)
+    @Column(name = "pista3")
     private String pista3;
 
     // Getters y Setters
     public Integer getCodigoPalabra() {
+
         return codigoPalabra;
     }
 
