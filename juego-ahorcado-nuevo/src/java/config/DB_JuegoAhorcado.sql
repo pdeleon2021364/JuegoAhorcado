@@ -3,24 +3,28 @@ CREATE DATABASE DB_JuegoAhorcado;
 USE DB_JuegoAhorcado;
 
 CREATE TABLE palabras (
-    codigoPalabra INT AUTO_INCREMENT PRIMARY KEY,
+    codigoPalabra INT AUTO_INCREMENT NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     pista1 VARCHAR(255) NOT NULL,
     pista2 VARCHAR(255) NOT NULL,
-    pista3 VARCHAR(255) NOT NULL
+    pista3 VARCHAR(255) NOT NULL,
+    PRIMARY KEY PK_codigoPalabra(codigoPalabra)
 );
 
 CREATE TABLE usuarios(
-	codigoUsuario INT auto_increment primary KEY,
+    codigoUsuario INT AUTO_INCREMENT NOT NULL,
     nombre VARCHAR (50) NOT NULL,
     apellido VARCHAR (50) NOT NULL,
     correo VARCHAR (50) NOT NULL,
-    contrasena VARCHAR (50) NOT NULL
+    contrasena VARCHAR (50) NOT NULL,
+    PRIMARY KEY PK_codigoUsuario(codigoUsuario)
 );
+
 
 select * from usuarios;
 
-INSERT INTO usuarios (nombre, apellido, correo, contrasena) VALUES
+INSERT INTO usuarios (nombre, apellido, correo, contrasena) 
+VALUES
 ('juanperez', 'Perez', 'juanperez@email.com', '9090'),
 ('pdeleon', 'De Leon', 'pdeleon@email.com', '1234');
 
@@ -46,4 +50,6 @@ BEGIN
     FROM palabras;
 END $$
 DELIMITER ;
+
+
 

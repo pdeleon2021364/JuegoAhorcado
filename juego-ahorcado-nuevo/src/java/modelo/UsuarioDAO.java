@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 public class UsuarioDAO {
 
     public Usuario validarUsuario(String nombre, String contrasena) {
-        String sql = "SELECT * FROM usuarios WHERE nombre = ? AND contrasena = ?";
+        String sql = "SELECT * FROM Usuarios WHERE nombre = ? AND contrasena = ?";
         Conexion cn = new Conexion();
 
         try (Connection con = cn.getConnection();
