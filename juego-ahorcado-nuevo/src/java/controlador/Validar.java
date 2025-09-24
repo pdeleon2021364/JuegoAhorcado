@@ -26,13 +26,11 @@ public class Validar extends HttpServlet {
             Usuario user = usuarioDAO.validarUsuario(username, password);
 
             if (user != null) {
-                // ✅ Login exitoso → crear sesión
                 HttpSession session = request.getSession(true);
                 session.setAttribute("usuario", user.getNombre());
 
                 response.sendRedirect("Controlador");
             } else {
-                // ❌ Usuario o contraseña incorrectos
                 request.setAttribute("error", "Usuario o contraseña incorrectos");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
