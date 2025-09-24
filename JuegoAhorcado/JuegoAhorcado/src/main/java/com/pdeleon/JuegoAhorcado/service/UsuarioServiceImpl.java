@@ -12,12 +12,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    // Lista de dominios permitidos para el correo
     private final List<String> dominiosPermitidos = Arrays.asList(
             "@gmail.com",
             "@outlook.com",
             "@hotmail.com",
             "@yahoo.com",
-            "@icloud.com"
+            "@icloud.com",
+            "@kinal.edu.gt"
     );
 
     public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
@@ -41,6 +43,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         validarCampos(usuario);
         validarCorreo(usuario.getCorreo());
 
+        // Validar duplicado por correo
         if (usuarioRepository.findByCorreo(usuario.getCorreo()) != null) {
             throw new RuntimeException("El correo ingresado ya está en uso");
         }
@@ -57,12 +60,13 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario existente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se encontró un usuario con el ID: " + id));
 
-        // Si existe otro usuario con el mismo correo y distinto id → error
+        // Validar duplicado de correo en otro usuario
         Usuario otro = usuarioRepository.findByCorreo(usuario.getCorreo());
         if (otro != null && !otro.getCodigoUsuario().equals(id)) {
             throw new RuntimeException("El correo ya pertenece a otro usuario");
         }
 
+        // Actualizar campos
         existente.setNombre(usuario.getNombre());
         existente.setApellido(usuario.getApellido());
         existente.setCorreo(usuario.getCorreo());
@@ -92,6 +96,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (usuario.getCorreo() == null || usuario.getCorreo().trim().isEmpty()) {
             throw new RuntimeException("El correo no puede estar vacío");
         }
+        if (usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {
+            throw new RuntimeException("La contraseña no puede estar vacía");
+        }
+        if (usuario.getContrasena().length() < 6) {
+            throw new RuntimeException("La contraseña debe tener al menos 6 caracteres");
+        }
     }
 
     private void validarCorreo(String correo) {
@@ -112,3 +122,4 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 }
+
